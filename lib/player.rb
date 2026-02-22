@@ -1,3 +1,4 @@
+# Player class contains a name and symbol "X" or "O"
 class Player
   attr_reader :name, :symbol
 
