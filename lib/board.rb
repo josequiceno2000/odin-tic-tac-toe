@@ -38,8 +38,3 @@ class Board
     display
   end
 end
-
-board = Board.new
-board.display
-board.update([1, 2], 'X')
-board.update([1, 2], 'O')

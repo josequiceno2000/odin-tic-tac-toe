@@ -3,13 +3,13 @@ require_relative 'player'
 
 # Game contains all game logic
 class Game
-  TITLE = <<~HEREDOC
+  TITLE = <<~TEXT.freeze
     ▄▄▄▄▄▪   ▄▄·     ▄▄▄▄▄ ▄▄▄·  ▄▄·     ▄▄▄▄▄      ▄▄▄ .
     •██  ██ ▐█ ▌▪    •██  ▐█ ▀█ ▐█ ▌▪    •██  ▪     ▀▄.▀·
      ▐█.▪▐█·██ ▄▄     ▐█.▪▄█▀▀█ ██ ▄▄     ▐█.▪ ▄█▀▄ ▐▀▀▪▄
      ▐█▌·▐█▌▐███▌     ▐█▌·▐█ ▪▐▌▐███▌     ▐█▌·▐█▌.▐▌▐█▄▄▌
      ▀▀▀ ▀▀▀·▀▀▀      ▀▀▀  ▀  ▀ ·▀▀▀      ▀▀▀  ▀█▄▀▪ ▀▀▀ 
-  HEREDOC
+  TEXT
 
   WELCOME = "\nWelcome to Tic Tac Toe.".freeze
   RED = "\e[31m".freeze
@@ -43,8 +43,13 @@ class Game
       puts "PLAYER TWO, your symbol is #{RED}#{@player_two.symbol}#{RESET}"
     end
   end
+
+  def display_board
+    @board.display
+  end
 end
 
 game = Game.new
 game.set_symbols
 game.display_symbols
+game.display_board
