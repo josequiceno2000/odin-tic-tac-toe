@@ -8,6 +8,8 @@ class Board
   BOLD = "\e[1m".freeze
   RESET = "\e[0m".freeze
 
+  attr_accessor :grid
+
   def initialize
     @grid = Array.new(3) { Array.new(3) { EMPTY_BLOCK }}
   end
@@ -31,9 +33,9 @@ class Board
     row = position[0] - 1
     column = position[1] - 1
     if symbol == 'X'
-      @grid[row][column] = "║#{RED} #{symbol} #{RESET}║"
+      grid[row][column] = "║#{RED} #{symbol} #{RESET}║"
     elsif symbol == 'O'
-      @grid[row][column] = "║#{BLUE} #{symbol} #{RESET}║"
+      grid[row][column] = "║#{BLUE} #{symbol} #{RESET}║"
     end
     display
   end

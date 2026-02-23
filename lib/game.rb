@@ -50,13 +50,22 @@ class Game
   end
 
   def play_game
-    while @round <= 9
-      current_player = choose_player
-      @board.update(choose_position(current_player), current_player.symbol)
-
-      @round += 1
-      pp @round
+    keep_playing = true
+    while @round <= 9 && keep_playing
+      keep_playing = play_round
     end
+  end
+
+  def play_round
+    current_player = choose_player
+    @board.update(choose_position(current_player), current_player.symbol)
+    if check_for_winner(@board)
+      display_winner(current_player)
+      return false
+    end
+      
+    @round += 1
+    true
   end
 
   def choose_player
@@ -66,12 +75,31 @@ class Game
   def choose_position(current_player)
     puts "\n#{'─' * 50}"
     puts "||#{current_player.name}|| Place your piece (row, then column)"
-    puts "#{'─' * 50}"
+    puts ('─' * 50)
     print 'ROW >> '
     row = gets.chomp.to_i
     print 'COLUMN >> '
     column = gets.chomp.to_i
     [row, column]
+  end
+
+  def check_for_winner(board)
+    grid = board.grid.flatten
+    win_conditions = [
+      (grid[0].include?('X') || grid[0].include?('O')) && grid[0] == grid[1] && grid[1] == grid[2],
+      (grid[3].include?('X') || grid[3].include?('O')) && grid[3] == grid[4] && grid[4] == grid[5],
+      (grid[6].include?('X') || grid[6].include?('O')) && grid[6] == grid[7] && grid[7] == grid[8],
+      (grid[0].include?('X') || grid[0].include?('O')) && grid[0] == grid[3] && grid[3] == grid[6],
+      (grid[1].include?('X') || grid[1].include?('O')) && grid[1] == grid[4] && grid[4] == grid[7],
+      (grid[2].include?('X') || grid[2].include?('O')) && grid[2] == grid[5] && grid[5] == grid[8],
+      (grid[0].include?('X') || grid[0].include?('O')) &&  grid[0] == grid[4] && grid[4] == grid[8],
+      (grid[2].include?('X') || grid[2].include?('O')) && grid[2] == grid[4] && grid[4] == grid[6]
+    ]
+    win_conditions.any?(true)
+  end
+
+  def display_winner(current_player)
+    puts "\n#{current_player.name} wins!"
   end
 end
 
