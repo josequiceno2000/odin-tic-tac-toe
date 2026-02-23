@@ -19,8 +19,9 @@ class Game
 
   def initialize
     @board = Board.new
-    @player_one = Player.new
-    @player_two = Player.new
+    @round = 1
+    @player_one = Player.new('PLAYER ONE')
+    @player_two = Player.new('PLAYER TWO')
 
     puts TITLE
     puts WELCOME
@@ -35,17 +36,42 @@ class Game
   def display_symbols
     if @player_one.symbol == 'X'
       @player_two.symbol = 'O'
-      puts "\nPLAYER ONE, your symbol is #{RED}#{@player_one.symbol}#{RESET}"
-      puts "PLAYER TWO, your symbol is #{BLUE}#{@player_two.symbol}#{RESET}"
+      puts "\n#{@player_one.name}, your symbol is #{RED}#{@player_one.symbol}#{RESET}"
+      puts "#{@player_two.name}, your symbol is #{BLUE}#{@player_two.symbol}#{RESET}"
     elsif @player_one.symbol == 'O'
       @player_two.symbol = 'X'
-      puts "\nPLAYER ONE, your symbol is #{BLUE}#{@player_one.symbol}#{RESET}"
-      puts "PLAYER TWO, your symbol is #{RED}#{@player_two.symbol}#{RESET}"
+      puts "\n#{@player_one.name}, your symbol is #{BLUE}#{@player_one.symbol}#{RESET}"
+      puts "#{@player_two.name}, your symbol is #{RED}#{@player_two.symbol}#{RESET}"
     end
   end
 
   def display_board
     @board.display
+  end
+
+  def play_game
+    while @round <= 9
+      current_player = choose_player
+      @board.update(choose_position(current_player), current_player.symbol)
+
+      @round += 1
+      pp @round
+    end
+  end
+
+  def choose_player
+    @round.even? ? @player_two : @player_one
+  end
+
+  def choose_position(current_player)
+    puts "\n#{'─' * 50}"
+    puts "||#{current_player.name}|| Place your piece (row, then column)"
+    puts "#{'─' * 50}"
+    print 'ROW >> '
+    row = gets.chomp.to_i
+    print 'COLUMN >> '
+    column = gets.chomp.to_i
+    [row, column]
   end
 end
 
@@ -53,3 +79,4 @@ game = Game.new
 game.set_symbols
 game.display_symbols
 game.display_board
+game.play_game
