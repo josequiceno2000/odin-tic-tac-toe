@@ -1,10 +1,13 @@
-# Constants
-HORIZONTAL_DIVIDER = '─'.freeze
-EMPTY_BLOCK = '║   ║'.freeze
-GRID_SIDE_LENGTH = 15
-
 # Board is a grid
 class Board
+  HORIZONTAL_DIVIDER = '─'.freeze
+  EMPTY_BLOCK = '║   ║'.freeze
+  GRID_SIDE_LENGTH = 15
+  RED = "\e[31m".freeze
+  BLUE = "\e[34m".freeze
+  BOLD = "\e[1m".freeze
+  RESET = "\e[0m".freeze
+
   def initialize
     @grid = Array.new(3) { Array.new(3) { EMPTY_BLOCK }}
   end
@@ -25,11 +28,18 @@ class Board
   end
 
   def update(position, symbol)
-    @grid[position[0]][position[1]] = "║ #{symbol} ║"
+    row = position[0] - 1
+    column = position[1] - 1
+    if symbol == 'X'
+      @grid[row][column] = "║#{RED} #{symbol} #{RESET}║"
+    elsif symbol == 'O'
+      @grid[row][column] = "║#{BLUE} #{symbol} #{RESET}║"
+    end
     display
   end
 end
 
 board = Board.new
 board.display
-board.update([1, 2], "X")
+board.update([1, 2], 'X')
+board.update([1, 2], 'O')
